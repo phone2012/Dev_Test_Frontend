@@ -13,10 +13,6 @@
         <v-card-title class="headline">
           Web Application for Managing Inventory of Products
         </v-card-title>
-        <v-card-text>
-            {{ branch_id }}
-            {{ datas.data }}
-        </v-card-text>
         <v-card-actions>
           <v-flex xs12>
      <v-select
@@ -31,7 +27,6 @@
           <v-spacer />
           <v-btn
             color="primary"
-            flat
             nuxt
            @click="sendValue">
             show
@@ -39,13 +34,23 @@
         </v-card-actions>
       </v-card>
       <v-card>
-        <v-card-title class="headline">
-
-        </v-card-title>
-        <v-card-actions>
-          <v-flex xs12>
-            <Table/>
-          </v-flex>
+        <v-container >
+          <v-layout row wrap>
+            <v-flex xs12 v-if="show_table">
+              <Table
+              :items="datas_Product"
+              />
+            </v-flex>
+          </v-layout>
+        </v-container>
+        <v-card-actions v-if="show_table">
+            <v-spacer />
+            <v-flex xs3>
+              <Add/>
+            </v-flex>
+            <v-flex xs3>
+            <Delete/>
+            </v-flex>
         </v-card-actions>
       </v-card>
     </v-flex>
@@ -53,31 +58,36 @@
 </template>
 
 <script>
-// import Logo from '~/components/Logo.vue'
  import Table from '~/components/Table_Product.vue'
+ import Delete from '~/components/Delete_Data.vue'
+ import Add from '~/components/Add_Data.vue'
 
 export default {
   data: () => ({
-      items: null,
+      items: undefined,
       item: null,
       branch_id: null,
       datas: [],
+      datas_Product: [],
+      show_table: false,
     }),
   components: {
-    // Logo,
     Table,
-    // VuetifyLogo
+    Delete,
+    Add
   },
   async created() {
-    // console.log('created')
-    //const result = await this.$axios.$get(`/team/hierarchy?team_id=${COOKIES.userInfo.ams.team_id}`);
+
     this.item = await this.$http.get(`/branch/find/all`);
     this.items = this.item.data
     console.log(this.item.data)
   },
   methods: {
     async sendValue() {
+      this.show_table = true
       this.datas = await this.$http.get(`/collect_product/find/id/${this.branch_id}`);
+      this.datas_Product = this.datas.data
+      console.log('5555555',this.datas_Product);
     },
   },
 }
