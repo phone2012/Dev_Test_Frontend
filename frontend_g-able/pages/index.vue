@@ -45,10 +45,10 @@
         </v-container>
         <v-card-actions v-if="show_table">
             <v-spacer />
-            <v-flex xs3>
+            <v-flex xs6 md3>
               <Add/>
             </v-flex>
-            <v-flex xs3>
+            <v-flex xs6 md3>
             <Delete/>
             </v-flex>
         </v-card-actions>
@@ -80,14 +80,12 @@ export default {
 
     this.item = await this.$http.get(`/branch/find/all`);
     this.items = this.item.data
-    console.log(this.item.data)
   },
   methods: {
     async sendValue() {
       this.show_table = true
       this.datas = await this.$http.get(`/collect_product/find/id/${this.branch_id}`);
       this.datas_Product = this.datas.data
-      console.log('5555555',this.datas_Product);
     },
   },
 }

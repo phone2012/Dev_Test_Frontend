@@ -20,8 +20,8 @@
           </v-layout>
         </v-container>
         <v-card-actions>
-       <v-btn color="green darken-1" flat @click.native="dialog = false">ยกเลิก</v-btn>
-       <v-btn color="green darken-1" flat @click="deletes">ยืนยัน</v-btn>
+       <v-btn color="error"  @click.native="dialog = false">ยกเลิก</v-btn>
+       <v-btn color="green darken-1"  @click="deletes">ยืนยัน</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -39,7 +39,6 @@
     async created() {
       var datas = await this.$http.get(`/collect_product/find/all`);
       this.item = datas.data
-      console.log('dsfgh', this.item)
     },
     methods: {
       async deletes() {
